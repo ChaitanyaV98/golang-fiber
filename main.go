@@ -1,8 +1,10 @@
 package main
 
 import (	
-"github.com/chaitanyav98/go-fiber/book"
+"github.com/chaitanyav98/golang-fiber/book"
 "github.com/gofiber/fiber"
+"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 //import ("goland-crud/book")
 
@@ -16,11 +18,24 @@ func setupRoutes(app *fiber.App){
 	app.Post("/api/v1/book", book.NewBook)
 	app.Delete("/api/v1/book/:id", book.DeleteBook)
 }
+func initDatabase() {
+	var err error
+	database.DBConn, err = gorm.Open("sqlite3", "books.db")
+	if err != nil {
+		panic("failed to connect database")
+	}
+	fmt.Println("Connection Opened to Database")
+	database.DBConn.AutoMigrate(&book.Book{})
+	fmt.Println("Database Migrated")
+}
+
+
 func main(){
 	app:= fiber.New()
 
 	setupRoutes(app);
 	app.Listen(4000)
+	defer database.DBConn.Close()
 
 }
 
