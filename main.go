@@ -1,7 +1,9 @@
 package main
 
-import (	
+import (
+"fmt"		
 "github.com/chaitanyav98/golang-fiber/book"
+"github.com/chaitanyav98/golang-fiber/database"
 "github.com/gofiber/fiber"
 "github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
@@ -35,7 +37,7 @@ func main(){
 
 	setupRoutes(app);
 	app.Listen(4000)
-	defer database.DBConn.Close()
+//	defer database.DBConn.Close()
 
 }
 
