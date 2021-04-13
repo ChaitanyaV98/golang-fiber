@@ -8,7 +8,11 @@ import (
 "github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
+func helloWorld(c *fiber.Ctx) {
+	c.Send("Hello, World!")
+}
 func setupRoutes(app *fiber.App) {
+	app.Get("/", helloWorld)
 	app.Get("/api/v1/book", book.GetBooks)
 	app.Get("/api/v1/book/:id", book.GetBook)
 	app.Post("/api/v1/book", book.NewBook)
@@ -29,7 +33,7 @@ func main() {
 	initDatabase()
 
 	setupRoutes(app)
-	app.Listen(3000)
+	app.Listen(4000)
 
 	defer database.DBConn.Close()
 }
